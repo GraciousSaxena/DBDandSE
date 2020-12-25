@@ -1,15 +1,15 @@
 import React, { Component } from "react"
 import Header from "./Header"
 
-class App extends Component {
+class Admin extends Component {
   render() {
     return (
       <>
         <Header />
-        <h1>This is the home body</h1>
+        <h1>This is the admin body</h1>
       </>
     )
   }
 }
 
-export default App
+export default Admin

@@ -55,8 +55,8 @@ class Signup extends Component {
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
         <Grid.Column style={{ maxWidth: 600 }} textAlign="left">
-          <Header as="h2" icon color="blue" textAlign="center">
-            <Icon name="ticket" color="blue" />
+          <Header as="h2" icon color="orange" textAlign="center">
+            <Icon name="ticket" color="orange" />
             Register for ShowTym
           </Header>
           <Form size="large" onSubmit={this.handleSubmit}>
@@ -156,7 +156,7 @@ class Signup extends Component {
               />
               <Button
                 fluid
-                color="blue"
+                color="orange"
                 size="large"
                 className={loading ? "loading" : ""}
               >
