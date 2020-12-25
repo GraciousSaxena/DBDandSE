@@ -31,8 +31,8 @@ class Login extends Component {
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
         <Grid.Column style={{ maxWidth: 450 }} textAlign="left">
-          <Header as="h2" icon color="orange" textAlign="center">
-            <Icon name="ticket" color="orange" />
+          <Header as="h2" icon color="black" textAlign="center">
+            <Icon name="ticket" color="black" />
             Login to ShowTym
           </Header>
           <Form size="large" onSubmit={this.handleSubmit}>
@@ -61,7 +61,7 @@ class Login extends Component {
               />
               <Button
                 fluid
-                color="orange"
+                color="black"
                 size="large"
                 className={loading ? "loading" : ""}
               >

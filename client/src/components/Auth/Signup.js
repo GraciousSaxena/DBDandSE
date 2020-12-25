@@ -10,6 +10,7 @@ import {
 } from "semantic-ui-react"
 import { Link } from "react-router-dom"
 import "../../styles/App.css"
+import axios from "axios"
 
 class Signup extends Component {
   state = {
@@ -19,9 +20,6 @@ class Signup extends Component {
     password: "",
     confirmPassword: "",
     contact: "",
-    day: "",
-    month: "",
-    year: "",
     loading: false,
     errors: [],
   }
@@ -30,8 +28,85 @@ class Signup extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
+  isFormEmpty = ({ firstName, email, password, confirmPassword, contact }) => {
+    return (
+      !firstName.length ||
+      !email.length ||
+      !password.length ||
+      !confirmPassword.length ||
+      !contact.length
+    )
+  }
+
+  isPasswordValid = ({ password, confirmPassword }) => {
+    if (password.length < 6 || confirmPassword.length < 6) {
+      return false
+    } else if (password !== confirmPassword) {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  isContactValid = ({ contact }) => {
+    if (contact.length !== 10) {
+      return false
+    }
+    const contactArray = [...contact]
+    for (let i = 0; i < contactArray.length; i++) {
+      if (contactArray[i] >= "0" && contactArray[i] <= "9") {
+        continue
+      } else {
+        return false
+      }
+    }
+    return true
+  }
+
+  isFormValid = () => {
+    let errors = []
+    let error
+
+    if (this.isFormEmpty(this.state)) {
+      error = { message: "Please fill out all fields!!!" }
+      this.setState({ errors: errors.concat(error) })
+      return false
+    } else if (!this.isPasswordValid(this.state)) {
+      error = { message: "The passwords entered are invalid!!! " }
+      this.setState({ errors: errors.concat(error) })
+      return false
+    } else if (!this.isContactValid(this.state)) {
+      error = { message: "Invalid Contact Number entered!!!" }
+      this.setState({ errors: errors.concat(error) })
+    } else {
+      return true
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault()
+
+    if (this.isFormValid()) {
+      this.setState({ errors: [], loading: true })
+      /*Create account*/
+      axios
+        .post("http://localhost:6969/customer/register", {
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          email: this.state.email,
+          password: this.state.password,
+          contact: this.state.contact,
+        })
+        .then(() => {
+          console.log("Successfully Registered")
+        })
+        .catch(err => {
+          this.setState({
+            errors: this.state.errors.concat(err),
+            loading: false,
+          })
+        })
+    }
   }
 
   displayErrors = errors =>
@@ -45,9 +120,6 @@ class Signup extends Component {
       password,
       confirmPassword,
       contact,
-      day,
-      month,
-      year,
       loading,
       errors,
     } = this.state
@@ -55,8 +127,8 @@ class Signup extends Component {
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
         <Grid.Column style={{ maxWidth: 600 }} textAlign="left">
-          <Header as="h2" icon color="orange" textAlign="center">
-            <Icon name="ticket" color="orange" />
+          <Header as="h2" icon color="black" textAlign="center">
+            <Icon name="ticket" color="black" />
             Register for ShowTym
           </Header>
           <Form size="large" onSubmit={this.handleSubmit}>
@@ -105,33 +177,32 @@ class Signup extends Component {
                 iconPosition="left"
                 type="text"
               />
-              <Form.Field label="Date of Birth" />
+              {/*
+                <Form.Field label="Date of Birth" />
               <Form.Group widths="equal">
                 <Form.Input
                   fluid
                   name="day"
                   value={day}
                   onChange={this.handleChange}
-                  placeholder="Enter date"
-                  type="text"
+                  control="select"
                 />
                 <Form.Input
                   fluid
                   name="month"
                   value={month}
                   onChange={this.handleChange}
-                  placeholder="Enter month"
-                  type="text"
+                  control="select"
                 />
                 <Form.Input
                   fluid
                   name="year"
                   value={year}
                   onChange={this.handleChange}
-                  placeholder="Enter year"
-                  type="text"
+                  control="select"
                 />
               </Form.Group>
+              */}
               <Form.Input
                 fluid
                 name="password"
@@ -145,7 +216,7 @@ class Signup extends Component {
               />
               <Form.Input
                 fluid
-                name="password"
+                name="confirmPassword"
                 value={confirmPassword}
                 onChange={this.handleChange}
                 placeholder="Re-enter your password"
@@ -156,7 +227,7 @@ class Signup extends Component {
               />
               <Button
                 fluid
-                color="orange"
+                color="black"
                 size="large"
                 className={loading ? "loading" : ""}
               >
