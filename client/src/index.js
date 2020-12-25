@@ -1,11 +1,20 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import reportWebVitals from "./reportWebVitals"
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  withRouter,
+} from "react-router-dom"
 import App from "./components/Home/App"
 import Login from "./components/Auth/Login"
 import Signup from "./components/Auth/Signup"
+import Admin from "./components/Admin/Admin"
 import "semantic-ui-css/semantic.min.css"
+import { createStore } from "redux"
+import { composeWithDevTools } from "redux-devtools-extension"
+import { Provider, connect } from "react-redux"
 
 const Root = () => (
   <Router>
@@ -13,6 +22,7 @@ const Root = () => (
       <Route path="/" component={App} exact />
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
+      <Route path="/admin" component={Admin} />
     </Switch>
   </Router>
 )
