@@ -236,10 +236,10 @@ class EditProfile extends Component {
   }
 }
 
-const mapStateFromProps = state => ({
+const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
 })
 
-const EditProfileWithAuth = withRouter(connect(mapStateFromProps)(EditProfile))
+const EditProfileWithAuth = withRouter(connect(mapStateToProps)(EditProfile))
 
 export default EditProfileWithAuth

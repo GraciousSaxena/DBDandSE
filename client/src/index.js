@@ -20,20 +20,30 @@ import Spinner from "./Spinner"
 import { setUser, clearUser } from "./actions/index"
 import firebase from "./firebase"
 import EditProfileWithAuth from "./components/Home/EditProfile"
+import WatchHistoryWithAuth from "./components/Home/WatchHistory"
+import Register from "./components/Admin/Register"
+import CurrentMovies from "./components/Admin/CurrentMovies"
+import PastMovies from "./components/Admin/PastMovies"
+import GenerateReports from "./components/Admin/GenerateReports"
 
 const store = createStore(rootReducer, composeWithDevTools())
 
 class Root extends Component {
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.props.setUser(user)
-        this.props.history.push("/")
-      } else {
-        this.props.history.push("/login")
-        this.props.clearUser()
-      }
-    })
+    const path = this.props.location.pathname.split("/")[1]
+    if (path === "admin") {
+      this.props.history.push("/admin")
+    } else {
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          this.props.setUser(user)
+          this.props.history.push("/")
+        } else {
+          this.props.history.push("/login")
+          this.props.clearUser()
+        }
+      })
+    }
   }
 
   render() {
@@ -44,8 +54,17 @@ class Root extends Component {
         <Route path="/" component={App} exact />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route path="/admin" component={Admin} />
+        <Route path="/admin" component={Admin} exact />
+        <Route path="/admin/register" component={Register} exact />
+        <Route path="/admin/current-movies" component={CurrentMovies} exact />
+        <Route path="/admin/past-movies" component={PastMovies} exact />
+        <Route
+          path="/admin/generate-reports"
+          component={GenerateReports}
+          exact
+        />
         <Route path="/edit-profile" component={EditProfileWithAuth} />
+        <Route path="/watch-history" component={WatchHistoryWithAuth} />
       </Switch>
     )
   }

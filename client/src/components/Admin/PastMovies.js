@@ -1,15 +1,15 @@
 import React, { Component } from "react"
 import HeaderWithAuth from "./Header"
 
-class Admin extends Component {
+class PastMovies extends Component {
   render() {
     return (
-      <>
+      <div>
         <HeaderWithAuth />
-        <h1>This is the admin body</h1>
-      </>
+        <h1>This is the past movies list</h1>
+      </div>
     )
   }
 }
 
-export default Admin
+export default PastMovies
