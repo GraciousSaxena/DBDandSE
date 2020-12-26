@@ -26,7 +26,10 @@ app.post("/customer/register", (req, res) => {
     [firstName, lastName, contact, email, password],
     (err, result) => {
       if (err) {
-        console.log(err)
+        if (err.code === "ER_DUP_ENTRY") {
+          res.send("Credentials already in use...")
+        }
+        console.error(err)
       } else {
         console.log(result)
         res.send("Customer registered")
