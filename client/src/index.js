@@ -19,6 +19,7 @@ import rootReducer from "./reducers"
 import Spinner from "./Spinner"
 import { setUser, clearUser } from "./actions/index"
 import firebase from "./firebase"
+import EditProfileWithAuth from "./components/Home/EditProfile"
 
 const store = createStore(rootReducer, composeWithDevTools())
 
@@ -44,6 +45,7 @@ class Root extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/admin" component={Admin} />
+        <Route path="/edit-profile" component={EditProfileWithAuth} />
       </Switch>
     )
   }

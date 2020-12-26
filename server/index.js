@@ -57,6 +57,41 @@ app.post("/customer/login", (req, res) => {
   )
 })
 
+app.post("/customer/details", (req, res) => {
+  const email = req.body.email
+
+  sql_db.query(
+    "SELECT * FROM customers WHERE email = (?)",
+    [email],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        res.send(result)
+      }
+    }
+  )
+})
+
+app.put("/customer/details", (req, res) => {
+  const firstName = req.body.firstName
+  const lastName = req.body.lastName
+  const email = req.body.email
+  const contact = req.body.contact
+
+  sql_db.query(
+    "UPDATE customers SET firstName = (?), lastName = (?), contact = (?) WHERE email = (?)",
+    [firstName, lastName, contact, email],
+    (err, result) => {
+      if (err) {
+        res.send("Conflict while updating")
+      } else {
+        res.send("Successfully updated")
+      }
+    }
+  )
+})
+
 app.listen(6969, () => {
   console.log("Server is running ....")
 })
