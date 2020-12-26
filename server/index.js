@@ -38,6 +38,25 @@ app.post("/customer/register", (req, res) => {
   )
 })
 
+app.post("/customer/login", (req, res) => {
+  const email = req.body.email
+  const password = req.body.password
+
+  sql_db.query(
+    "SELECT * FROM customers WHERE email = (?) AND password = (?)",
+    [email, password],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else if (result.length > 0) {
+        res.send("Successfully logged in...")
+      } else {
+        res.send("Invalid login credentials...")
+      }
+    }
+  )
+})
+
 app.listen(6969, () => {
   console.log("Server is running ....")
 })

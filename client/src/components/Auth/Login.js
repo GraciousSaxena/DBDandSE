@@ -10,6 +10,7 @@ import {
 } from "semantic-ui-react"
 import { Link } from "react-router-dom"
 import "../../styles/App.css"
+import axios from "axios"
 
 class Login extends Component {
   state = { email: "", password: "", loading: false, errors: [] }
@@ -18,8 +19,51 @@ class Login extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
+  isFormEmpty = ({ email, password }) => {
+    return !email.length || !password.length
+  }
+
+  isFormValid = () => {
+    let errors = []
+    let error
+
+    if (this.isFormEmpty(this.state)) {
+      error = { message: "Please fill out all fields!!!" }
+      this.setState({ errors: errors.concat(error) })
+      return false
+    } else {
+      return true
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault()
+
+    if (this.isFormValid()) {
+      this.setState({ errors: [], loading: true })
+      axios
+        .post("http://localhost:6969/customer/login", {
+          email: this.state.email,
+          password: this.state.password,
+        })
+        .then(res => {
+          console.log(res)
+          if (res.data === "Successfully logged in...") {
+            console.log(res.data)
+          } else {
+            this.setState({
+              errors: this.state.errors.concat({ message: res.data }),
+              loading: false,
+            })
+          }
+        })
+        .catch(err => {
+          this.setState({
+            errors: this.state.errors.concat(err),
+            loading: false,
+          })
+        })
+    }
   }
 
   displayErrors = errors =>
