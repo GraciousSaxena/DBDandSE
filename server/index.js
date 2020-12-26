@@ -26,10 +26,32 @@ app.post("/customer/register", (req, res) => {
     [firstName, lastName, contact, email, password],
     (err, result) => {
       if (err) {
-        console.log(err)
+        if (err.code === "ER_DUP_ENTRY") {
+          res.send("Credentials already in use...")
+        }
+        console.error(err)
       } else {
         console.log(result)
         res.send("Customer registered")
+      }
+    }
+  )
+})
+
+app.post("/customer/login", (req, res) => {
+  const email = req.body.email
+  const password = req.body.password
+
+  sql_db.query(
+    "SELECT * FROM customers WHERE email = (?) AND password = (?)",
+    [email, password],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else if (result.length > 0) {
+        res.send("Successfully logged in...")
+      } else {
+        res.send("Invalid login credentials...")
       }
     }
   )

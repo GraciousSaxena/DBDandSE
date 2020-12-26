@@ -97,8 +97,17 @@ class Signup extends Component {
           password: this.state.password,
           contact: this.state.contact,
         })
-        .then(() => {
-          console.log("Successfully Registered")
+        .then(res => {
+          console.log(res)
+          console.log(res.data)
+          if (res.data === "Credentials already in use...") {
+            this.setState({
+              errors: this.state.errors.concat({ message: res.data }),
+              loading: false,
+            })
+          } else {
+            console.log("Account successfully created...")
+          }
         })
         .catch(err => {
           this.setState({
