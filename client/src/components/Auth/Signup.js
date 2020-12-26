@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom"
 import "../../styles/App.css"
 import axios from "axios"
+import firebase from "../../firebase"
 
 class Signup extends Component {
   state = {
@@ -107,6 +108,25 @@ class Signup extends Component {
             })
           } else {
             console.log("Account successfully created...")
+            firebase
+              .auth()
+              .createUserWithEmailAndPassword(
+                this.state.email,
+                this.state.password
+              )
+              .then(createdUser => {
+                console.log(createdUser)
+                createdUser.user
+                  .updateProfile({
+                    displayName: this.state.firstName,
+                  })
+                  .then(() => {
+                    console.log("User Saved")
+                  })
+              })
+              .catch(err => {
+                console.error(err)
+              })
           }
         })
         .catch(err => {

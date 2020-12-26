@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom"
 import "../../styles/App.css"
 import axios from "axios"
+import firebase from "../../firebase"
 
 class Login extends Component {
   state = { email: "", password: "", loading: false, errors: [] }
@@ -50,6 +51,15 @@ class Login extends Component {
           console.log(res)
           if (res.data === "Successfully logged in...") {
             console.log(res.data)
+            firebase
+              .auth()
+              .signInWithEmailAndPassword(this.state.email, this.state.password)
+              .then(signedInUser => {
+                console.log(signedInUser)
+              })
+              .catch(err => {
+                console.error(err)
+              })
           } else {
             this.setState({
               errors: this.state.errors.concat({ message: res.data }),
