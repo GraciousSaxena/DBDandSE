@@ -216,6 +216,97 @@ app.put('/movies/create-show', (req, res) => {
   )
 })
 
+app.get('/movie/:id', (req, res) => {
+  const movieId = req.params.id
+
+  sql_db.query(
+    'SELECT * FROM movies WHERE id = (?)',
+    [movieId],
+    (err, result) => {
+      res.send(result)
+      console.log(result)
+    }
+  )
+})
+
+app.get('/movie/shows/:id', (req, res) => {
+  const movieId = req.params.id
+
+  sql_db.query(
+    'SELECT * FROM shows WHERE movieId = (?)',
+    [movieId],
+    (err, result) => {
+      if (result.length > 0) {
+        res.send(result)
+        console.log(result)
+      } else {
+        res.send('No shows currently')
+      }
+    }
+  )
+})
+
+app.put('/movies/book', (req, res) => {
+  const movieId = req.body.movieId
+  const profit = req.body.profit
+  const projProfit = req.body.projProfit
+
+  sql_db.query(
+    'UPDATE movies SET earned = earned + (?), predicted = predicted + (?) WHERE id = (?)',
+    [profit, projProfit, movieId],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        res.send(result)
+      }
+    }
+  )
+})
+
+app.put('/show/book', (req, res) => {
+  const showId = req.body.showId
+  const ticketSold = req.body.ticketSold
+
+  sql_db.query(
+    'UPDATE shows SET ticketCount=ticketCount-(?) WHERE id=(?)',
+    [ticketSold, showId],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        res.send(result)
+      }
+    }
+  )
+})
+
+app.get('/show/:id', (req, res) => {
+  const showId = req.params.id
+
+  sql_db.query('SELECT * FROM shows WHERE id=(?)', [showId], (err, result) => {
+    res.send(result)
+  })
+})
+
+app.post('/watched', (req, res) => {
+  const movieId = req.body.movieId
+  const email = req.body.email
+  const empId = req.body.empId
+
+  sql_db.query(
+    'INSERT INTO watched (movieId, email, empId) VALUES (?, ?, ?)',
+    [movieId, email, empId],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        console.log(result)
+      }
+    }
+  )
+})
+
 app.post('/employees', (req, res) => {
   const name = req.body.name
   const email = req.body.email
@@ -234,6 +325,12 @@ app.post('/employees', (req, res) => {
       }
     }
   )
+})
+
+app.get('/employees', (req, res) => {
+  sql_db.query('SELECT * from employees', (err, result) => {
+    res.send(result)
+  })
 })
 
 app.listen(6969, () => {

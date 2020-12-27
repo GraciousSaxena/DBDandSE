@@ -28,6 +28,8 @@ import GenerateReports from './components/Admin/GenerateReports'
 import AddMovie from './components/Admin/AddMovie'
 import EditMovie from './components/Admin/EditMovie'
 import ScheduleShow from './components/Admin/ScheduleShow'
+import BookTicket from './components/Home/BookTicket'
+import BookShow from './components/Home/BookShow'
 
 const store = createStore(rootReducer, composeWithDevTools())
 
@@ -67,6 +69,8 @@ class Root extends Component {
         <Route path="/admin/generate-reports" component={GenerateReports} />
         <Route path="/edit-profile" component={EditProfileWithAuth} />
         <Route path="/watch-history" component={WatchHistoryWithAuth} />
+        <Route path="/movie/:id" component={BookTicket} />
+        <Route path="/show/:id" component={BookShow} />
       </Switch>
     )
   }
