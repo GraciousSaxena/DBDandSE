@@ -402,6 +402,83 @@ app.post('/watched-movie-id', (req, res) => {
   )
 })
 
+app.get('/reviews/:id', (req, res) => {
+  const movieId = req.params.id
+
+  sql_db.query(
+    'SELECT * FROM reviews WHERE movieId = (?)',
+    [movieId],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        res.send(result)
+      }
+    }
+  )
+})
+
+app.post('/check', (req, res) => {
+  const movieId = req.body.movieId
+  const email = req.body.email
+
+  sql_db.query(
+    'SELECT * FROM reviews WHERE movieId = (?) AND email = (?)',
+    [movieId, email],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else if (result.length > 0) {
+        res.send('Already reviewed')
+      } else {
+        sql_db.query(
+          'SELECT * FROM watched WHERE movieId = (?) AND email = (?)',
+          [movieId, email],
+          (err, result) => {
+            if (err) {
+              console.error(err)
+            } else if (result.length > 0) {
+              res.send('Allowed')
+            } else {
+              res.send('Watch movie first')
+            }
+          }
+        )
+      }
+    }
+  )
+})
+
+app.post('/reviews/add', (req, res) => {
+  const movieId = req.body.movieId
+  const email = req.body.email
+  const rating = req.body.rating
+  const review = req.body.review
+  const effecRating = req.body.effecRating
+
+  sql_db.query(
+    'INSERT INTO reviews (movieId, email, review, rating) VALUES (?, ?, ?, ?)',
+    [movieId, email, review, rating],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        sql_db.query(
+          'UPDATE movies SET ratings = (ratings * numReviews + (?)) / (numReviews + 1), numReviews = numReviews + 1 WHERE id = (?)',
+          [effecRating, movieId],
+          (err, result) => {
+            if (err) {
+              console.error(err)
+            } else {
+              res.send(result)
+            }
+          }
+        )
+      }
+    }
+  )
+})
+
 app.listen(6969, () => {
   console.log('Server is running ....')
 })
