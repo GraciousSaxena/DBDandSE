@@ -1,34 +1,30 @@
-import React, { Component } from "react"
-import { withRouter } from "react-router-dom"
-import { Input, Menu } from "semantic-ui-react"
-import firebase from "../../firebase"
-import { connect } from "react-redux"
+import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
+import { Input, Menu } from 'semantic-ui-react'
+import firebase from '../../firebase'
+import { connect } from 'react-redux'
 
 class Header extends Component {
   handleClick = () => {
-    this.props.history.push("/")
+    this.props.history.push('/')
   }
 
   handleLogout = () => {
     firebase
       .auth()
       .signOut()
-      .then(() => console.log("Signed Out Successfully"))
-  }
-
-  handleWatchHistory = () => {
-    this.props.history.push("/watch-history")
+      .then(() => console.log('Signed Out Successfully'))
   }
 
   handleEditProfile = () => {
-    this.props.history.push("/edit-profile")
+    this.props.history.push('/edit-profile')
   }
 
   render() {
     const { currentUser } = this.props
 
     return (
-      <Menu secondary size="huge" inverted style={{ backgroundColor: "black" }}>
+      <Menu secondary size="huge" inverted style={{ backgroundColor: 'black' }}>
         <Menu.Item icon="ticket" name="ShowTym" onClick={this.handleClick} />
         <Menu.Menu>
           <Menu.Item>
@@ -50,7 +46,6 @@ class Header extends Component {
             <Menu.Item name="Welcome..." />
           )}
           <Menu.Item name="Logout" onClick={this.handleLogout} />
-          <Menu.Item name="Watch History" onClick={this.handleWatchHistory} />
         </Menu.Menu>
       </Menu>
     )

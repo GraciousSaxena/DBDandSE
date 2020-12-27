@@ -20,7 +20,6 @@ import Spinner from './Spinner'
 import { setUser, clearUser } from './actions/index'
 import firebase from './firebase'
 import EditProfileWithAuth from './components/Home/EditProfile'
-import WatchHistoryWithAuth from './components/Home/WatchHistory'
 import Register from './components/Admin/Register'
 import CurrentMovies from './components/Admin/CurrentMovies'
 import PastMovies from './components/Admin/PastMovies'
@@ -68,7 +67,6 @@ class Root extends Component {
         <Route path="/admin/schedule-show" component={ScheduleShow} />
         <Route path="/admin/generate-reports" component={GenerateReports} />
         <Route path="/edit-profile" component={EditProfileWithAuth} />
-        <Route path="/watch-history" component={WatchHistoryWithAuth} />
         <Route path="/movie/:id" component={BookTicket} />
         <Route path="/show/:id" component={BookShow} />
       </Switch>

@@ -96,9 +96,16 @@ class BookShow extends Component {
       axios
         .put('http://localhost:6969/movies/book', {
           movieId: this.state.show.movieId,
-          profit: this.state.totalPrice,
+          profit:
+            this.state.ticketQty * this.state.show.ticketPrice +
+            this.state.refCount * this.state.refPrice,
           projProfit:
-            this.state.totalPrice + Math.floor(this.state.totalPrice * 0.15),
+            this.state.ticketQty * this.state.show.ticketPrice +
+            this.state.refCount * this.state.refPrice +
+            Math.floor(
+              this.state.ticketQty * this.state.show.ticketPrice +
+                this.state.refCount * this.state.refPrice * 0.15
+            ),
         })
         .then(res => {
           console.log(res.data)

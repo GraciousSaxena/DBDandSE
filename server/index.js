@@ -247,12 +247,13 @@ app.get('/movie/shows/:id', (req, res) => {
 })
 
 app.put('/movies/book', (req, res) => {
+  console.log(req.body)
   const movieId = req.body.movieId
   const profit = req.body.profit
   const projProfit = req.body.projProfit
 
   sql_db.query(
-    'UPDATE movies SET earned = earned + (?), predicted = predicted + (?) WHERE id = (?)',
+    'UPDATE movies SET earned=earned+(?), predicted=predicted+(?) WHERE id=(?)',
     [profit, projProfit, movieId],
     (err, result) => {
       if (err) {
