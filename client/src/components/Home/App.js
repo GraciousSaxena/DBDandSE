@@ -19,18 +19,6 @@ class App extends Component {
     fetchedAll: false,
   }
 
-  displayMovies = movies =>
-    movies.map(movie => (
-      <Table.Row key={movie.id}>
-        <Table.Cell>
-          <Link to={`/movie/${movie.id}`}>{movie.name}</Link>
-        </Table.Cell>
-        <Table.Cell>
-          <Rating value={movie.ratings} color="teal" />
-        </Table.Cell>
-      </Table.Row>
-    ))
-
   fillAll = () => {
     this.setState({ fillAllCalled: true })
 
@@ -141,6 +129,18 @@ class App extends Component {
     this.setState({ recommendedMovies: newRecommended, otherMovies: newOthers })
   }
 
+  displayMovies = movies =>
+    movies.map(movie => (
+      <Table.Row key={movie.id}>
+        <Table.Cell>
+          <Link to={`/movie/${movie.id}`}>{movie.name}</Link>
+        </Table.Cell>
+        <Table.Cell>
+          <Rating value={movie.ratings} color="teal" />
+        </Table.Cell>
+      </Table.Row>
+    ))
+
   render() {
     const { currentUser } = this.props
 
@@ -167,26 +167,39 @@ class App extends Component {
             </Button>
             {console.log(recommendedMovies, otherMovies)}
             {fetchedAll && (
-              <Table celled textAlign="center">
-                <Table.Header>
-                  <Table.Row>
-                    <Table.HeaderCell>Movie Name</Table.HeaderCell>
-                    <Table.HeaderCell>Rating</Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {recommendedMovies.length > 0 ? (
-                    this.displayMovies(recommendedMovies)
-                  ) : (
-                    <></>
-                  )}
-                  {otherMovies.length > 0 ? (
-                    this.displayMovies(otherMovies)
-                  ) : (
-                    <></>
-                  )}
-                </Table.Body>
-              </Table>
+              <>
+                <Table celled textAlign="center">
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>Movie Name</Table.HeaderCell>
+                      <Table.HeaderCell>Rating</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    {recommendedMovies.length > 0 ? (
+                      this.displayMovies(recommendedMovies)
+                    ) : (
+                      <></>
+                    )}
+                  </Table.Body>
+                </Table>
+
+                <Table celled textAlign="center">
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>Movie Name</Table.HeaderCell>
+                      <Table.HeaderCell>Rating</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    {otherMovies.length > 0 ? (
+                      this.displayMovies(otherMovies)
+                    ) : (
+                      <></>
+                    )}
+                  </Table.Body>
+                </Table>
+              </>
             )}
           </Grid.Column>
         </Grid>
