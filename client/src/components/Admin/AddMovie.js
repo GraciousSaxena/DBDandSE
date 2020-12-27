@@ -110,8 +110,22 @@ export default class AddMovie extends Component {
                 genres: this.state.value,
               })
               .then(res => {
-                this.setState({ loading: false })
+                console.log(res.data)
               })
+
+            const genres = this.state.value
+            genres.map(genre => {
+              axios
+                .post('http://localhost:6969/genre', {
+                  movieId: res.data.insertId,
+                  genre: genre,
+                })
+                .then(res => {
+                  console.log(res.data)
+                })
+            })
+
+            this.setState({ loading: false })
           }
         })
     }

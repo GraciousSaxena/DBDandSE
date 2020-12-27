@@ -334,6 +334,74 @@ app.get('/employees', (req, res) => {
   })
 })
 
+app.post('/genre', (req, res) => {
+  const movieId = req.body.movieId
+  const genre = req.body.genre
+
+  sql_db.query(
+    'INSERT INTO genres (movieId, genre) VALUES (?, ?)',
+    [movieId, genre],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        console.log(result)
+        res.send(result)
+      }
+    }
+  )
+})
+
+app.post('/get-genre', (req, res) => {
+  const movieId = req.body.movieId
+
+  sql_db.query(
+    'SELECT DISTINCT(genre) FROM genres WHERE movieId = (?)',
+    [movieId],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        console.log(result)
+        res.send(result)
+      }
+    }
+  )
+})
+
+app.post('/get-movie', (req, res) => {
+  const genre = req.body.genre
+
+  sql_db.query(
+    'SELECT movieId FROM genres WHERE genre=(?)',
+    [genre],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        console.log(result)
+        res.send(result)
+      }
+    }
+  )
+})
+
+app.post('/watched-movie-id', (req, res) => {
+  const email = req.body.email
+
+  sql_db.query(
+    'SELECT DISTINCT(movieId) FROM watched WHERE email=(?)',
+    [email],
+    (err, result) => {
+      if (err) {
+        console.error(err)
+      } else {
+        res.send(result)
+      }
+    }
+  )
+})
+
 app.listen(6969, () => {
   console.log('Server is running ....')
 })
