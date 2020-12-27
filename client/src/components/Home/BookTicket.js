@@ -135,7 +135,7 @@ class BookTicket extends Component {
     }
   }
 
-  handleReviewSubmit = e => {
+  handleSubmit = e => {
     e.preventDefault()
 
     if (this.isFormValid()) {
@@ -220,7 +220,7 @@ class BookTicket extends Component {
                 <Grid.Column style={{ maxWidth: 600 }}>
                   <Header as="h4">Write review</Header>
                   <Segment stacked>
-                    <Form size="small" onSubmit={this.handleReviewSubmit}>
+                    <Form size="small" onSubmit={this.handleSubmit}>
                       <Form.Input
                         name="rating"
                         value={rating}
@@ -240,14 +240,14 @@ class BookTicket extends Component {
                         onChange={this.handleChange}
                         type="text"
                       />
+                      <Button
+                        size="small"
+                        color="black"
+                        className={loading ? 'loading' : ''}
+                      >
+                        Submit Review
+                      </Button>
                     </Form>
-                    <Button
-                      size="small"
-                      color="black"
-                      className={loading ? 'loading' : ''}
-                    >
-                      Submit Review
-                    </Button>
                   </Segment>
                   {errors.length && (
                     <Message error>{this.displayErrors(errors)}</Message>
