@@ -44,7 +44,7 @@ class PastMovies extends Component {
             <Table.Row>
               <Table.HeaderCell>Movie ID</Table.HeaderCell>
               <Table.HeaderCell>Movie Name</Table.HeaderCell>
-              <Table.HeaderCell>Days Screened</Table.HeaderCell>
+              <Table.HeaderCell>Shows Screened</Table.HeaderCell>
               <Table.HeaderCell>Running Costs</Table.HeaderCell>
               <Table.HeaderCell>Revenue Generated</Table.HeaderCell>
             </Table.Row>

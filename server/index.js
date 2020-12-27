@@ -179,6 +179,43 @@ app.post('/movies/add-genre', (req, res) => {
   new Genre(moviedata).save().then(() => res.send('Successfully added'))
 })
 
+app.post('/movies/create-show', (req, res) => {
+  const movieId = req.body.movieId
+  const day = req.body.day
+  const month = req.body.month
+  const year = req.body.year
+  const ticketCount = req.body.ticketCount
+  const ticketPrice = req.body.ticketPrice
+
+  sql_db.query(
+    'INSERT INTO shows (movieId, day, month, year, ticketCount, ticketPrice) VALUES (?, ?, ?, ?, ?, ?)',
+    [movieId, day, month, year, ticketCount, ticketPrice],
+    (err, result) => {
+      if (err) {
+        res.send('Could not create show')
+      } else {
+        res.send(result)
+      }
+    }
+  )
+})
+
+app.put('/movies/create-show', (req, res) => {
+  const movieId = req.body.movieId
+
+  sql_db.query(
+    'UPDATE movies SET daysScreened = daysScreened + 1 WHERE id = (?)',
+    [movieId],
+    (err, result) => {
+      if (err) {
+        res.send('Failed update')
+      } else {
+        res.send(result)
+      }
+    }
+  )
+})
+
 app.post('/employees', (req, res) => {
   const name = req.body.name
   const email = req.body.email
