@@ -5,6 +5,10 @@ import firebase from "../../firebase"
 import { connect } from "react-redux"
 
 class Header extends Component {
+  handleClick = () => {
+    this.props.history.push("/")
+  }
+
   handleLogout = () => {
     firebase
       .auth()
@@ -12,11 +16,11 @@ class Header extends Component {
       .then(() => console.log("Signed Out Successfully"))
   }
 
-  handleWatchHistory = e => {
+  handleWatchHistory = () => {
     this.props.history.push("/watch-history")
   }
 
-  handleEditProfile = e => {
+  handleEditProfile = () => {
     this.props.history.push("/edit-profile")
   }
 
