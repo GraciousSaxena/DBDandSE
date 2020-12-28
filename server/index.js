@@ -144,7 +144,21 @@ app.put('/movies', (req, res) => {
       if (err) {
         res.send({ message: 'Error' })
       } else {
-        res.send(result)
+        if (isActive === 0) {
+          sql_db.query(
+            'UPDATE movies SET predicted = earned WHERE id = (?)',
+            [movieId],
+            (err, result) => {
+              if (err) {
+                console.error(err)
+              } else {
+                res.send(result)
+              }
+            }
+          )
+        } else {
+          res.send(result)
+        }
       }
     }
   )
